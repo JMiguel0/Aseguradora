@@ -1,0 +1,41 @@
+{%extends "header.html"%}
+
+{% block title %} Clientes {% endblock%}
+
+{% block content %}
+    
+<section class="container-general services">
+	<div class="titles">
+		<div class="btn-add">
+			<a href="{% url 'Clientes:nuevo' %}"> <i class="fas fa-user-plus"></i> </a>
+		</div>	
+		<div class="title">
+			<h1>Clientes</h1>
+		</div>	
+		<div class="box-search">
+			<input type="text" name="">
+		</div>	
+	</div>
+	<div class="body-general">
+		<div class="body">
+			{%for dato in lista%}
+			
+			<div class="content">
+				<div class="data">
+					<div class="data-section">
+						<h3>{{dato}}</h3>
+						<p>Móvil: {{dato.num_celular}}</p>
+					</div>
+				</div>
+				<a href="{% url 'Clientes:detalle' dato.id %}">Consultar</a>
+				<a href="#">Editar</a>
+				<a href="#">Eliminar</a>
+			</div>
+
+			{%endfor%}
+			
+	</div>
+
+</section>
+
+{% endblock %}

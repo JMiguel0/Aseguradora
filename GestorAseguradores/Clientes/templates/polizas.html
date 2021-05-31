@@ -1,0 +1,43 @@
+{%extends "header.html"%}
+
+{% block title %} Clientes {% endblock%}
+
+{% block content %}
+	<section class="container-general services">
+		<div class="titles">
+			<div class="btn-add">
+				<a href="{% url 'Clientes:nueva_poliza' %}"><i class="fas fa-file-medical"></i></a>
+			</div>	
+			<div class="title">
+				<h1>Polizas</h1>
+			</div>	
+			<div class="box-search">
+				<input type="text" name="">
+			</div>	
+		</div>
+		<div class="body-general">
+			<div class="body">
+
+				{%for dato in poliza%}
+				<div class="content">
+					<div class="data">
+						<div class="data-section">
+							<h3>Número de Póliza</h3>
+							<p>{{dato.num_poliza}}</p>
+						</div>
+						<div class="data-section">
+							<h3>Cliente</h3>
+							<p>{{dato.cliente.nombre}} {{dato.cliente.ap_paterno}}</p>
+						</div>
+					</div>
+					<a href="#">Consultar</a>
+					<a href="#">Editar</a>
+					<a href="#">Eliminar</a>
+				</div>
+				{%endfor%}
+			</div>
+			
+		</div>
+
+	</section>
+	{% endblock %}
