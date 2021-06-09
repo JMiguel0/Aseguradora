@@ -1,0 +1,11 @@
+{%extends "header.html"%}
+
+{% block title %} Clientes {% endblock%}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <h2>Seguro que quiere eliminar a {{cliente}}</h2>
+    <button style="btn btn-warning" type="submit">Confirmar</button>
+</form>
+{% endblock%}

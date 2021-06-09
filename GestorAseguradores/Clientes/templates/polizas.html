@@ -30,7 +30,7 @@
 							<p>{{dato.cliente.nombre}} {{dato.cliente.ap_paterno}}</p>
 						</div>
 					</div>
-					<a href="#">Consultar</a>
+					<a href="{% url 'Clientes:detalle_poliza' dato.id %}">Consultar</a>
 					<a href="#">Editar</a>
 					<a href="#">Eliminar</a>
 				</div>

@@ -22,17 +22,30 @@
   box-shadow: 5px 5px 30px rgba(0,0,0,.4);
 }
 
-.container i, .container2 i {
+.container .content1 i, .container2 .content1 i {
   width: 200px;
   margin: 5px;
   font-size: 60px;
   text-align: center;
+  color: #FFF;
+  transition: 1s ease-in-out;
+}
+
+.container .content4 .content a:hover i, .container2 .content4 .content a:hover i {
   color: #FFF;
 }
 
 .container .text, .container2 .text {
   width: 80%;
   text-align: left;
+}
+
+.container .date-text {
+  width: 80%;
+  color: #407690;
+  border-bottom: 2px solid #407690;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .container .box, .container2 .box {

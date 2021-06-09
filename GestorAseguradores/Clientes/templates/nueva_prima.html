@@ -11,11 +11,11 @@
 			</div>
 			<div class="content4">
 				<p class="text">Nombre:</p>
-				<p class="date-text"><strong> {{cliente.nombre}} {{cliente.ap_paterno}}</strong></p>
+				<p class="date-text"><strong> {{poliza.cliente.nombre}} {{poliza.cliente.ap_paterno}}</strong></p>
 				<p class="text">Email:</p>
-				<p class="date-text"><strong>{{cliente.email}}</strong></p>
+				<p class="date-text"><strong>{{poliza.cliente.email}}</strong></p>
 				<p class="text">Telefono Celular:</p>
-				<p class="date-text"><strong>{{cliente.num_celular}}</strong></p>
+				<p class="date-text"><strong>{{poliza.cliente.num_celular}}</strong></p>
 				<br />
 			</div>
 		</div>
@@ -23,34 +23,30 @@
 			<div class="content1">
 				<i class="fas fa-bookmark"></i>
 			</div>
-			<div class="content4 nocontent">
+			<div class="content4">
                 <div class="body-general">
                     
-					<div class="body">
-						{% for polizas in poliza%}
+					<div class="body notifications">
 						<div class="content">
 							<div class="data">
-                                
 								<div class="data-section">
 									<h3>Numero</h3>
-									<p>{{polizas.num_poliza}}</p>
+									<p>{{poliza.num_poliza}}</p>
 								</div>
 								<div class="data-section">
-									<h3>Fecha de vencimineto</h3>
-									<p>{{polizas.fecha_termino}}</p>
+									<h3>Cliente</h3>
+									<p>{{poliza.cliente.nombre}}</p>
 								</div>
-                                
 							</div>
-							
 							<a href="#"><i class="fas fa-search"></i></a>
 							<a href="#"><i class="fas fa-edit"></i></a>
 							<a href="#"><i class="fas fa-trash-alt"></i></a>
 						</div>
-						{% endfor%}
+						
 					</div>
                     
 				</div>
-				                
+				
 			</div>
 		</div>
 	</section>

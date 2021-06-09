@@ -1,34 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<link rel="stylesheet" href="sty.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://kit.fontawesome.com/1669efdec3.js" crossorigin="anonymous"></script>
+{%extends "header.html"%}
 
-</head>
-<body>
-	
-	<header>
-		<nav>
-			<section class="container-nav nav">
-				<div class="logo-nav">
-					<img src="logo_seguros.jpeg">		
-				</div>			
-				<div class="links-nav">
-					<a href="clientes.html">Clientes</a>
-					<a href="polizas.html">Polizas</a>
-					<a href="estadisticas.html">Estadisticas</a>
-					<a href="calendario.html">Calendario</a>
-					<a href="Notificaciones.html">Notificaciones</a>
-				</div>	
-				<div class="img-nav">
-					<img src="gato.jpg">		
-				</div>
-			</section>
-		</nav>
-	</header>
+{% block title %} Clientes {% endblock%}
 
+{% block content %}
 
 	<section class="container-general services">
 		<div class="titles">
@@ -142,5 +116,4 @@
 	</section>
 
 	<script src="jquery.js"></script>
-</body>
-</html>
+{% endblock %}

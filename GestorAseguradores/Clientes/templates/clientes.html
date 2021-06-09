@@ -28,8 +28,8 @@
 					</div>
 				</div>
 				<a href="{% url 'Clientes:detalle' dato.id %}">Consultar</a>
-				<a href="#">Editar</a>
-				<a href="#">Eliminar</a>
+				<a href="{% url 'Clientes:editar' dato.id %}">Editar</a>
+				<a href="{% url 'Clientes:eliminar' dato.id %}">Eliminar</a>
 			</div>
 
 			{%endfor%}
