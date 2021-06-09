@@ -7,6 +7,8 @@ class ClientesAdmin(admin.ModelAdmin):
 
 admin.site.register(Cliente, ClientesAdmin)
 admin.site.register(Poliza)
+admin.site.register(Prima)
 admin.site.register(Status)
+admin.site.register(TiposPago)
 admin.site.register(Tipos_Poliza)
 admin.site.register(Periodos_Pago)

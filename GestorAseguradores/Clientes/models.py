@@ -57,3 +57,23 @@ class Poliza (models.Model):
 
     def __str__(self):
         return self.num_poliza +", "+ self.cliente.nombre
+
+class TiposPago (models.Model):
+    nombre = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.nombre
+
+class Prima (models.Model):
+    no_prima = models.CharField(max_length=30) 
+    fecha_vencimiento = models.DateField()
+    prima_neta = models.CharField(max_length=30)
+    comision_agente = models.CharField(max_length=30)
+    total_pagar = models.CharField(max_length=30)
+    ruta_comprobante = models.CharField(max_length=30, default="Hola")
+    poliza = models.ForeignKey(Poliza, on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    tipo_pago = models.ForeignKey(TiposPago, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.no_prima

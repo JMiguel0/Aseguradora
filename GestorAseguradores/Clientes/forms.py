@@ -1,11 +1,10 @@
 from django import forms
+from django.db.models.query_utils import Q
 from django.forms import fields, widgets 
 from .models import *
 
 class ClienteForm(forms.ModelForm):
     class Meta:
-        
-        
         model = Cliente
         fields = ['nombre', 'ap_paterno','ap_materno','fecha_nacimiento','email','num_celular','num_fijo','codigo_postal','colonia','direccion','rfc','fecha_registro','status']
         labels = {'nombre' : 'Nombre', 'ap_paterno':'Apellido Paterno','ap_materno':'Apellido Materno','fecha_nacimiento':'Fecha de Nacimiento','email':'Email','num_celular':'Número Móvil','num_fijo':'Número fijo','codigo_postal':'Código Postal','colonia':'Colonia','direccion':'Dirección','rfc':'R.F.C   ','fecha_registro':'Fecha de registro'}
@@ -38,4 +37,18 @@ class PolizaForm(forms.ModelForm):
                     'cliente' : forms.Select(attrs={'class' : 'box'} , choices=Cliente.objects.all()),
                     'status' : forms.Select(attrs={'class' : 'box'} , choices=Status.objects.all()),
                     }
-                   
+
+class PrimaForm(forms.ModelForm):
+    class Meta:
+        model = Prima
+        fields = ['no_prima', 'fecha_vencimiento','prima_neta','total_pagar','ruta_comprobante','poliza','status','tipo_pago']
+        labels = {'no_prima':'No. Prima', 'fecha_vencimiento':'Fecha de Vencimiento','prima_neta':'Prima Neta','total_pagar':'Total a Pagar','ruta_comprobante':'Comprobante','poliza':'No. Póliza','status':'Status','tipo_pago':'Forma de Pago'}
+        widgets = { 'no_prima' : forms.TextInput(attrs={'class' : 'box'}),
+                    'fecha_vencimiento' : forms.DateInput(attrs={'class' : 'box' ,'type':'date'}),
+                    'prima_neta' : forms.TextInput(attrs={'class' : 'box'}),
+                    'total_pagar' : forms.TextInput(attrs={'class' : 'box'}),
+                    'ruta_comprobante' : forms.TextInput(attrs={'class' : 'box'}),
+                    'poliza' : forms.Select(attrs={'class' : 'box'} , choices=Poliza.objects.all()),
+                    'status' : forms.Select(attrs={'class' : 'box'} , choices=Status.objects.all()),
+                    'tipo_pago' : forms.Select(attrs={'class' : 'box'} , choices=TiposPago.objects.all()),
+                    }                                       
