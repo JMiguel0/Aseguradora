@@ -15,8 +15,15 @@ urlpatterns = [
     path('polizas/',views.polizas,name='polizas'),
     path('nueva_poliza/',views.nueva_poliza,name='nueva_poliza'),
     path('polizas/<int:id_poliza>',views.detallePolizas,name='detalle_poliza'),
+    path('polizas/editar/<int:id_poliza>',views.editarPoliza,name='editar_poliza'),
+    path('polizas/eliminar/<int:id_poliza>',views.eliminarPoliza,name='eliminar_poliza'),
     #Notificaciones
-    path('notificaciones/',views.notificaciones,name='notificaciones'),
-
-
+    path('notificaciones/',views.notificaciones,name='notificaciones')
+    #Primas
+    #
+    #path('polizas/<int:id_poliza>/primas/<int:id_poliza>',views.primas,name='primas'),
+    #path('polizas/<int:id_poliza>/',views.nueva_poliza,name='nueva_poliza'),
+    #path('polizas/<int:id_poliza>/primas/<int:id_poliza>',views.detallePolizas,name='detalle_poliza'),
+    #path('polizas/editar/<int:id_poliza>',views.editarPoliza,name='editar_poliza'),
+    #path('polizas/eliminar/<int:id_poliza>',views.eliminarPoliza,name='eliminar_poliza'),
 ]

@@ -11,7 +11,7 @@ class ClienteForm(forms.ModelForm):
         widgets = { 'nombre' : forms.TextInput(attrs={'class' : 'box'}),
                     'ap_paterno' : forms.TextInput(attrs={'class' : 'box'}),
                     'ap_materno' : forms.TextInput(attrs={'class' : 'box'}),
-                    'fecha_nacimiento' : forms.DateInput(attrs={'class' : 'box' ,'type':'date'}),
+                    'fecha_nacimiento' : forms.TextInput(attrs={'class' : 'box' ,'type':'date'}),
                     'email' : forms.TextInput(attrs={'class' : 'box'}),
                     'num_celular' : forms.TextInput(attrs={'class' : 'box'}),
                     'num_fijo' : forms.TextInput(attrs={'class' : 'box'}),
@@ -19,7 +19,7 @@ class ClienteForm(forms.ModelForm):
                     'colonia' : forms.TextInput(attrs={'class' : 'box'}),
                     'direccion' : forms.TextInput(attrs={'class' : 'box'}),
                     'rfc' : forms.TextInput(attrs={'class' : 'box'}),
-                    'fecha_registro' : forms.DateInput(attrs={'class' : 'box','type':'date'}),
+                    'fecha_registro' : forms.TextInput(attrs={'class' : 'box','type':'date'}),
                     'status' : forms.Select(attrs={'class' : 'box'} , choices=Status.objects.all()),
                     }
 
@@ -31,7 +31,7 @@ class PolizaForm(forms.ModelForm):
         widgets = { 'num_poliza' : forms.TextInput(attrs={'class' : 'box'}),
                     'deducible' : forms.TextInput(attrs={'class' : 'box'}),
                     'fecha_inicio' : forms.TextInput(attrs={'class' : 'box','type':'date'}),
-                    'fecha_termino' : forms.DateInput(attrs={'class' : 'box' ,'type':'date'}),
+                    'fecha_termino' : forms.TextInput(attrs={'class' : 'box' ,'type':'date'}),
                     'tipo_poliza' : forms.Select(attrs={'class' : 'box'} , choices=Tipos_Pago.objects.all()),
                     'periodo_pago' : forms.Select(attrs={'class' : 'box'} , choices=Periodos_Pago.objects.all()),
                     'cliente' : forms.Select(attrs={'class' : 'box'} , choices=Cliente.objects.all()),
@@ -44,7 +44,7 @@ class PrimaForm(forms.ModelForm):
         fields = ['no_prima', 'fecha_vencimiento','prima_neta','total_pagar','ruta_comprobante','poliza','status','tipo_pago']
         labels = {'no_prima':'No. Prima', 'fecha_vencimiento':'Fecha de Vencimiento','prima_neta':'Prima Neta','total_pagar':'Total a Pagar','ruta_comprobante':'Comprobante','poliza':'No. Póliza','status':'Status','tipo_pago':'Forma de Pago'}
         widgets = { 'no_prima' : forms.TextInput(attrs={'class' : 'box'}),
-                    'fecha_vencimiento' : forms.DateInput(attrs={'class' : 'box' ,'type':'date'}),
+                    'fecha_vencimiento' : forms.TextInput(attrs={'class' : 'box' ,'type':'date'}),
                     'prima_neta' : forms.TextInput(attrs={'class' : 'box'}),
                     'total_pagar' : forms.TextInput(attrs={'class' : 'box'}),
                     'ruta_comprobante' : forms.TextInput(attrs={'class' : 'box'}),

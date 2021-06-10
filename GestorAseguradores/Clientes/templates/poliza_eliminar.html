@@ -1,11 +1,11 @@
 {%extends "header.html"%}
 
-{% block title %} Clientes {% endblock%}
+{% block title %} Eliminar Póliza {% endblock%}
 
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-    <h2>Seguro que quiere eliminar a {{cliente}}</h2>
+    <h2>Seguro que quiere eliminar a {{poliza}}</h2>
     <button type="submit">Confirmar</button>
 </form>
 {% endblock%}

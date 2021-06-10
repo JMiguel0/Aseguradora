@@ -24,10 +24,8 @@ def nuevo(request):
 
 def editar(request, id_cliente):
     cliente = Cliente.objects.get(id=id_cliente)
-    print("holaaaa", type(cliente.fecha_nacimiento))
     form = ClienteForm(request.POST or None, instance=cliente)
     if form.is_valid():
-        
         form.save()
         return redirect('Clientes:index')
     return render(request, 'editar.html', {'form':form, 'cliente':cliente})
@@ -55,7 +53,6 @@ def polizas(request):
     cliente = Cliente.objects.filter(agente = request.user)
     for usuario in cliente:
         lista_polizas  |= Poliza.objects.filter(cliente = usuario)
-
     lista = list(lista_polizas)
     return render(request, 'polizas.html', {'poliza': lista})
 
@@ -78,8 +75,22 @@ def detallePolizas(request, id_poliza):
     }
     return render(request, 'poliza_detalle.html', context)
 
+def editarPoliza(request, id_poliza):
+    poliza = Poliza.objects.get(id=id_poliza)
+    form = PolizaForm(request.POST or None, instance=poliza)
+    if form.is_valid():
+        form.save()
+        return redirect('Clientes:polizas')
+    return render(request, 'poliza_editar.html', {'form':form, 'poliza':poliza})
+
+def eliminarPoliza(request, id_poliza):
+    poliza = Poliza.objects.get(id = id_poliza)
+    if request.method == 'POST':
+        poliza.delete()
+        return redirect('Clientes:polizas')
+    return render(request,'poliza_eliminar.html', {'poliza':poliza})
+
 #Notificaciónes
 
 def notificaciones(request):
-    
     return render(request, 'notificaciones.html')
