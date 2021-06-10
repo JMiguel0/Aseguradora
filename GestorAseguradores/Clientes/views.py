@@ -95,6 +95,18 @@ def vistaPoliza(request, id_poliza):
     form = PolizaForm(request.POST or None, instance=poliza)
     return render(request,'poliza_vista.html', {'form':form,'poliza':poliza})
 
+#Primas
+
+def nueva_prima(request, id_poliza):
+    poliza = Poliza.objects.get(id = id_poliza)
+    form = PrimaForm(request.POST or None)
+    context = {
+     'form':form   
+    }
+    if form.is_valid():
+        form.save()
+        return redirect('Clientes:polizas')
+    return render(request, 'nueva_poliza.html', context)
 #Notificaciónes
 
 def notificaciones(request):

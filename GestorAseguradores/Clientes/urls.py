@@ -21,8 +21,7 @@ urlpatterns = [
     #Notificaciones
     path('notificaciones/',views.notificaciones,name='notificaciones'),
     #Primas
-    #path('polizas/<int:id_poliza>/primas/<int:id_poliza>',views.primas,name='primas'),
-    #path('polizas/<int:id_poliza>/nueva_prima',views.nueva_poliza,name='nueva_prima'),
+    path('polizas/<int:id_poliza>/nueva_prima',views.nueva_prima,name='nueva_prima'),
     #path('polizas/<int:id_poliza>/primas/<int:id_prima>',views.detallePolizas,name='detalle_prima'),
     #path('polizas/editar/<int:id_poliza>/primas/<int:id_prima>',views.editarPoliza,name='editar_prima'),
     #path('polizas/eliminar/<int:id_poliza>',views.eliminarPoliza,name='eliminar_prima'),

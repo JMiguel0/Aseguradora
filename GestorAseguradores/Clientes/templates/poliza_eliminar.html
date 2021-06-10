@@ -3,9 +3,14 @@
 {% block title %} Eliminar Póliza {% endblock%}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <h2>Seguro que quiere eliminar a {{poliza}}</h2>
-    <button type="submit">Confirmar</button>
-</form>
+<section class="form-delete">
+    <form method="POST">
+        {% csrf_token %}
+        <h2>¿Seguro que quiere eliminar la póliza {{poliza}}?</h2>
+        <div class="b-g">
+            <button type="submit">Confirmar</button>
+        </div>
+    </form>		
+</section>
 {% endblock%}
+

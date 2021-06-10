@@ -1,0 +1,15 @@
+{%extends "header.html"%}
+
+{% block title %} Eliminar Prima {% endblock%}
+
+{% block content %}
+<section class="form-delete">
+    <form method="POST">
+        {% csrf_token %}
+        <h2>¿Seguro que quiere eliminar la prima {{prima}}?</h2>
+        <div class="b-g">
+            <button type="submit">Confirmar</button>
+        </div>
+    </form>		
+</section>
+{% endblock%}
