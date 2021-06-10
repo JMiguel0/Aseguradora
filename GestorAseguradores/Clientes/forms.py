@@ -41,14 +41,13 @@ class PolizaForm(forms.ModelForm):
 class PrimaForm(forms.ModelForm):
     class Meta:
         model = Prima
-        fields = ['no_prima', 'fecha_vencimiento','prima_neta','total_pagar','ruta_comprobante','poliza','status','tipo_pago']
-        labels = {'no_prima':'No. Prima', 'fecha_vencimiento':'Fecha de Vencimiento','prima_neta':'Prima Neta','total_pagar':'Total a Pagar','ruta_comprobante':'Comprobante','poliza':'No. Póliza','status':'Status','tipo_pago':'Forma de Pago'}
+        fields = ['no_prima', 'fecha_vencimiento','prima_neta','total_pagar','ruta_comprobante','status','tipo_pago']
+        labels = {'no_prima':'No. Prima', 'fecha_vencimiento':'Fecha de Vencimiento','prima_neta':'Prima Neta','total_pagar':'Total a Pagar','ruta_comprobante':'Comprobante','status':'Status','tipo_pago':'Forma de Pago'}
         widgets = { 'no_prima' : forms.TextInput(attrs={'class' : 'box'}),
                     'fecha_vencimiento' : forms.TextInput(attrs={'class' : 'box' ,'type':'date'}),
                     'prima_neta' : forms.TextInput(attrs={'class' : 'box'}),
                     'total_pagar' : forms.TextInput(attrs={'class' : 'box'}),
                     'ruta_comprobante' : forms.TextInput(attrs={'class' : 'box'}),
-                    'poliza' : forms.Select(attrs={'class' : 'box'} , choices=Poliza.objects.all()),
                     'status' : forms.Select(attrs={'class' : 'box'} , choices=Status.objects.all()),
                     'tipo_pago' : forms.Select(attrs={'class' : 'box'} , choices=TiposPago.objects.all()),
                     }                                       

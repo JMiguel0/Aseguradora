@@ -70,8 +70,10 @@ def nueva_poliza(request):
 
 def detallePolizas(request, id_poliza):
     polizas = Poliza.objects.get(pk=id_poliza)
+    primas = Prima.objects.filter(pk = id_poliza)
     context = {
-        'poliza':polizas
+        'poliza':polizas,
+        'primas':primas
     }
     return render(request, 'poliza_detalle.html', context)
 
@@ -98,15 +100,29 @@ def vistaPoliza(request, id_poliza):
 #Primas
 
 def nueva_prima(request, id_poliza):
-    poliza = Poliza.objects.get(id = id_poliza)
     form = PrimaForm(request.POST or None)
     context = {
-     'form':form   
+     'form':form 
     }
+    
     if form.is_valid():
-        form.save()
+        instance = form.save(commit=False)
+        poliza1 = Poliza.objects.get(id = id_poliza)
+        instance.comision_agente = "16"
+        instance.poliza = poliza1
+        instance.save()
         return redirect('Clientes:polizas')
-    return render(request, 'nueva_poliza.html', context)
+    return render(request, 'nueva_prima.html', context)
+
+def detallePrima(request, id_prima):
+    
+    prima = Prima.objects.get(id = id_prima)
+    form = PrimaForm(request.POST or None, instance=prima)
+    context = {
+        'form':form,
+    }
+    return render(request, 'vista_prima.html', context)
+
 #Notificaciónes
 
 def notificaciones(request):
