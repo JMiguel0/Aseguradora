@@ -42,9 +42,9 @@
                                 
 							</div>
 							
-							<a href="#"><i class="fas fa-search"></i></a>
-							<a href="#"><i class="fas fa-edit"></i></a>
-							<a href="#"><i class="fas fa-trash-alt"></i></a>
+							<a href="{% url 'Clientes:vista_poliza' polizas.id %}"><i class="fas fa-search"></i></a>
+							<a href="{% url 'Clientes:editar_poliza' polizas.id %}"><i class="fas fa-edit"></i></a>
+							<a href="{% url 'Clientes:eliminar_poliza' polizas.id %}"><i class="fas fa-trash-alt"></i></a>
 						</div>
 						{% endfor%}
 					</div>

@@ -5,7 +5,7 @@ from django.db.models.query_utils import Q
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import *
-from .forms import ClienteForm, PolizaForm
+from .forms import *
 
 # Clientes
 def index(request):
@@ -89,6 +89,11 @@ def eliminarPoliza(request, id_poliza):
         poliza.delete()
         return redirect('Clientes:polizas')
     return render(request,'poliza_eliminar.html', {'poliza':poliza})
+
+def vistaPoliza(request, id_poliza):
+    poliza = Poliza.objects.get(id = id_poliza)
+    form = PolizaForm(request.POST or None, instance=poliza)
+    return render(request,'poliza_vista.html', {'form':form,'poliza':poliza})
 
 #Notificaciónes
 
