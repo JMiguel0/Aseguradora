@@ -53,6 +53,7 @@
 							<a href="{% url 'Clientes:eliminar_poliza' poliza.id %}"><i class="fas fa-trash-alt"></i></a>
 						</div>
 						{% for prima in primas%}
+						
 						<div class="content">
 							<div class="data">
 								<div class="data-section">
@@ -73,9 +74,10 @@
 								</div>
 							</div>
 							<a href="{% url 'Clientes:detalle_prima' prima.id %}"><i class="fas fa-search"></i></a>
-							<a href="{% url 'Clientes:editar_poliza' prima.id %}"><i class="fas fa-edit"></i></a>
-							<a href="{% url 'Clientes:eliminar_poliza' prima.id %}"><i class="fas fa-trash-alt"></i></a>
+							<a href="{% url 'Clientes:prima_editar' poliza.id prima.id %}"><i class="fas fa-edit"></i></a>
+							<a href="{% url 'Clientes:prima_eliminar' poliza.id prima.id %}"><i class="fas fa-trash-alt"></i></a>
 						</div>
+						
 						{%endfor%}
 						
 					</div>

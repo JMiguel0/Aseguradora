@@ -70,7 +70,7 @@ def nueva_poliza(request):
 
 def detallePolizas(request, id_poliza):
     polizas = Poliza.objects.get(pk=id_poliza)
-    primas = Prima.objects.filter(pk = id_poliza)
+    primas = Prima.objects.filter(poliza_id = id_poliza)
     context = {
         'poliza':polizas,
         'primas':primas
@@ -82,7 +82,7 @@ def editarPoliza(request, id_poliza):
     form = PolizaForm(request.POST or None, instance=poliza)
     if form.is_valid():
         form.save()
-        return redirect('Clientes:polizas')
+        return redirect('Clientes:detalle_poliza', id_poliza)
     return render(request, 'poliza_editar.html', {'form':form, 'poliza':poliza})
 
 def eliminarPoliza(request, id_poliza):
@@ -111,7 +111,7 @@ def nueva_prima(request, id_poliza):
         instance.comision_agente = "16"
         instance.poliza = poliza1
         instance.save()
-        return redirect('Clientes:polizas')
+        return redirect('Clientes:detalle_poliza', id_poliza)
     return render(request, 'nueva_prima.html', context)
 
 def detallePrima(request, id_prima):
@@ -123,7 +123,30 @@ def detallePrima(request, id_prima):
     }
     return render(request, 'vista_prima.html', context)
 
-#Notificaciónes
+def editarPrima(request, id_poliza, id_prima):
+    prima = Prima.objects.get(id=id_prima)
+    form = PrimaForm(request.POST or None, instance=prima)
+    context = {
+     'form':form,
+     'prima':prima
+    }
+    
+    if form.is_valid():
+        instance = form.save(commit=False)
+        poliza1 = Poliza.objects.get(id = id_poliza)
+        instance.comision_agente = "16"
+        instance.poliza = poliza1
+        instance.save()
+        return redirect('Clientes:detalle_poliza', id_poliza)
+    return render(request, 'prima_editar.html', context)
+
+def eliminarPrima(request, id_poliza, id_prima):
+    prima = Prima.objects.get(id = id_prima)
+    if request.method == 'POST':
+        prima.delete()
+        return redirect('Clientes:detalle_poliza', id_poliza)
+    return render(request,'prima_eliminar.html', {'prima':prima})
+    #Notificaciónes
 
 def notificaciones(request):
     return render(request, 'notificaciones.html')
