@@ -15,101 +15,28 @@
 		</div>
 		<div class="body-general">
 			<div class="body notifications">
+				{%for prima in primas%}
 				<div class="content">
 					<div class="data">
 						<div class="data-section">
-							<h3>Poliza</h3>
-							<p>123456789</p>
+							<h3>Póliza</h3>
+							<p>{{prima.poliza}}</p>
 						</div>
 						<div class="data-section">
-							<h3>Cliente</h3>
-							<p>Nombre</p>
-						</div>
-						<div class="data-section">
-							<h3>Vencimiento</h3>
-							<p>Fecha</p>
-						</div>
-					</div>
-					<a href="#">Consultar</a>
-					<a href="#">Notificar</a>
-					<a href="#"><i class="fas fa-trash-alt"></i></a>
-				</div>
-				<div class="content">
-					<div class="data">
-						<div class="data-section">
-							<h3>Poliza</h3>
-							<p>123456789</p>
-						</div>
-						<div class="data-section">
-							<h3>Cliente</h3>
-							<p>Nombre</p>
+							<h3>No. Prima</h3>
+							<p>{{prima.no_prima}}</p>
 						</div>
 						<div class="data-section">
 							<h3>Vencimiento</h3>
-							<p>Fecha</p>
+							<p>{{prima.fecha_vencimiento}}</p>
 						</div>
 					</div>
-					<a href="#">Consultar</a>
-					<a href="#">Notificar</a>
-					<a href="#"><i class="fas fa-trash-alt"></i></a>
+					<a href="{% url 'Clientes:detalle_prima' prima.id %}">Consultar</a>
+					<a href="{% url 'Clientes:enviar_notificacion' prima.id %}">Notificar</a>
+					<a href="{% url 'Clientes:notificaciones_estado' prima.id %} "><i class="fas fa-check"></i></a>
 				</div>
-				<div class="content">
-					<div class="data">
-						<div class="data-section">
-							<h3>Poliza</h3>
-							<p>123456789</p>
-						</div>
-						<div class="data-section">
-							<h3>Cliente</h3>
-							<p>Nombre</p>
-						</div>
-						<div class="data-section">
-							<h3>Vencimiento</h3>
-							<p>Fecha</p>
-						</div>
-					</div>
-					<a href="#">Consultar</a>
-					<a href="#">Notificar</a>
-					<a href="#"><i class="fas fa-trash-alt"></i></a>
-				</div>
-				<div class="content">
-					<div class="data">
-						<div class="data-section">
-							<h3>Poliza</h3>
-							<p>123456789</p>
-						</div>
-						<div class="data-section">
-							<h3>Cliente</h3>
-							<p>Nombre</p>
-						</div>
-						<div class="data-section">
-							<h3>Vencimiento</h3>
-							<p>Fecha</p>
-						</div>
-					</div>
-					<a href="#">Consultar</a>
-					<a href="#">Notificar</a>
-					<a href="#"><i class="fas fa-trash-alt"></i></a>
-				</div>
-				<div class="content">
-					<div class="data">
-						<div class="data-section">
-							<h3>Poliza</h3>
-							<p>123456789</p>
-						</div>
-						<div class="data-section">
-							<h3>Cliente</h3>
-							<p>Nombre</p>
-						</div>
-						<div class="data-section">
-							<h3>Vencimiento</h3>
-							<p>Fecha</p>
-						</div>
-					</div>
-					<a href="#">Consultar</a>
-					<a href="#">Notificar</a>
-					<a href="#"><i class="fas fa-trash-alt"></i></a>
-				</div>
+				{%endfor%}
+				
 			</div>
 		</div>
 

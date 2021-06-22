@@ -133,3 +133,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('Clientes:index')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 AUTH_USER_MODEL = 'Agentes.Agente'
 
+#Para enviar correos
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "archiherr@gmail.com"
+EMAIL_HOST_PASSWORD = "BUBBAgumpD44N"

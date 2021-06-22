@@ -20,6 +20,8 @@ urlpatterns = [
     path('polizas/<int:id_poliza>/vista',views.vistaPoliza,name='vista_poliza'),
     #Notificaciones
     path('notificaciones/',views.notificaciones,name='notificaciones'),
+    path('cambiar_estado/<int:id_prima>',views.notificaciones_estado,name='notificaciones_estado'),
+    path('notificar/<int:id_prima>',views.enviar_notificacion,name='enviar_notificacion'),
     #Primas
     path('polizas/<int:id_poliza>/nueva_prima',views.nueva_prima,name='nueva_prima'),
     path('polizas/primas/<int:id_prima>',views.detallePrima,name='detalle_prima'),

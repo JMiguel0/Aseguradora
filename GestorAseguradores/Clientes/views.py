@@ -6,10 +6,10 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import *
 from .forms import *
+from django.core.mail import EmailMessage
 
 # Clientes
 def index(request):
-    
     lista_clientes = Cliente.objects.filter(agente=request.user)
     return render(request, 'clientes.html', {'lista': lista_clientes})
 
@@ -149,4 +149,58 @@ def eliminarPrima(request, id_poliza, id_prima):
     #Notificaciónes
 
 def notificaciones(request):
-    return render(request, 'notificaciones.html')
+    lista_polizas = Poliza.objects.none()
+    lista_primas = Prima.objects.none()
+    cliente = Cliente.objects.filter(agente = request.user)
+    
+    for usuario in cliente:
+        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+    lista = list(lista_polizas)
+    for prima in lista:
+        lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
+    lista_primas_agente = list(lista_primas)
+    return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
+
+def notificaciones_estado(request, id_prima):
+    prima = Prima.objects.get(id=id_prima)
+    form = PrimaForm(request.POST or None, instance=prima)
+    instance = form.save(commit=False)
+    instance.status = Status.objects.get(id = 2)
+    instance.save()
+    
+    lista_polizas = Poliza.objects.none()
+    lista_primas = Prima.objects.none()
+    cliente = Cliente.objects.filter(agente = request.user)
+    
+    for usuario in cliente:
+        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+    lista = list(lista_polizas)
+    for prima in lista:
+        lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
+    lista_primas_agente = list(lista_primas)
+    return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
+    
+def enviar_notificacion(request, id_prima):
+    #Falta checar esto para que se envíe el correo en automático al usuario corresponiente
+    prima = Prima.objects.get(id=id_prima)
+    lista_clientes = Cliente.objects.filter(Q(agente = request.user) & Q())
+    lista_primas = Prima.objects.none()
+    
+    
+    #Enviar email
+    asunto = "Recuerde pagar su póliza de seguro número " + str(prima.poliza)
+    mensaje = "Hola. Este correo es para recordarle el pago de la prima número {} de la póliza {}, favor de pagar MXN{} antes del {}. Gracias. ".format(str(prima.no_prima), str(prima.poliza),str(prima.prima_neta),str(prima.fecha_vencimiento))
+    email = EmailMessage(asunto, mensaje, 'archiherr@gmail.com',['archiherr@gmail.com'])
+    email.send()
+
+    #Regresar a ventana de notificaciónes
+    lista_polizas = Poliza.objects.none()
+    lista_primas = Prima.objects.none()
+    cliente = Cliente.objects.filter(agente = request.user)
+    for usuario in cliente:
+        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+    lista = list(lista_polizas)
+    for prima in lista:
+        lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
+    lista_primas_agente = list(lista_primas)
+    return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
