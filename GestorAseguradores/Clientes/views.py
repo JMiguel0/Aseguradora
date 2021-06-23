@@ -219,29 +219,19 @@ def notificaciones_estado(request, id_prima):
     
 def enviar_notificacion(request, id_prima):
     #Encontrar al cliente de la prima
-    prima = Prima.objects.get(id = id_prima)
-    poliza = Poliza.objects.get(id = prima.poliza.id)
-    cliente = Cliente.objects.get(id = poliza.id)
+    prima1 = Prima.objects.get(id = id_prima)
+    poliza1 = Poliza.objects.get(id = prima1.poliza.id)
+    cliente1 = Cliente.objects.get(id = poliza1.cliente.id)
     
     #Enviar email
-    asunto = "Recuerde pagar su póliza de seguro número " + str(prima.poliza)
-    mensaje = "Hola {} {}. Este correo es para recordarle el pago de la prima número {} de la póliza {}, favor de pagar MXN{} antes del {}. Gracias. ".format( str(cliente.nombre), str(cliente.ap_paterno),str(prima.no_prima), str(prima.poliza),str(prima.total_pagar),str(prima.fecha_vencimiento))
-    email = EmailMessage(asunto, mensaje, 'archiherr@gmail.com',[cliente.email])
+    asunto = "Recuerde pagar su póliza de seguro número " + str(prima1.poliza)
+    mensaje = "Hola {} {}. Este correo es para recordarle el pago de la prima número {} de la póliza {}, favor de pagar MXN{} antes del {}. Gracias. ".format( str(cliente1.nombre), str(cliente1.ap_paterno),str(prima1.no_prima), str(prima1.poliza),str(prima1.total_pagar),str(prima1.fecha_vencimiento))
+    email = EmailMessage(asunto, mensaje, 'archiherr@gmail.com',[cliente1.email])
     email.send()
-    messages.success(request,'Email enviado exitosamente')
-
-    #Regresar a ventana de notificaciónes
-    lista_polizas = Poliza.objects.none()
-    lista_primas = Prima.objects.none()
-    cliente = Cliente.objects.filter(agente = request.user)
-    for usuario in cliente:
-        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
-    lista = list(lista_polizas)
-    for prima in lista:
-        lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
-    lista_primas_agente = list(lista_primas)
-    return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
-
+    messages.success(request,'Email enviado exitosamente a '+str(cliente1.email))
+    
+    
+    return redirect('Clientes:notificaciones')
 def estadisticas(request):
 
     lista_polizas = Poliza.objects.none()
@@ -261,7 +251,6 @@ def estadisticas(request):
     for prima in lista_primas_agente:
         casilla = asignar_fecha(str(prima.fecha_vencimiento))
         casilla = int(casilla)
-        print(type(casilla))
         casilla = casilla-1
         cantidad_mensual = data[casilla] + (float(prima.total_pagar))*((float(prima.comision_agente)/100))
         data[casilla] = cantidad_mensual
