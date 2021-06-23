@@ -27,4 +27,6 @@ urlpatterns = [
     path('polizas/primas/<int:id_prima>',views.detallePrima,name='detalle_prima'),
     path('polizas/<int:id_poliza>/editar/primas/<int:id_prima>',views.editarPrima,name='prima_editar'),
     path('polizas/<int:id_poliza>/eliminar/primas/<int:id_prima>',views.eliminarPrima,name='prima_eliminar'),
+    #Estadística
+    path('estadisticas/',views.estadisticas,name='estadisticas'),
 ]

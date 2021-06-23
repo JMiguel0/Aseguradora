@@ -1,17 +1,29 @@
 
 
 from django.db import close_old_connections
+from django.db.models import query
+from django.db.models.query import QuerySet
 from django.db.models.query_utils import Q
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import *
 from .forms import *
 from django.core.mail import EmailMessage
+from django.contrib import messages
 
 # Clientes
 def index(request):
-    lista_clientes = Cliente.objects.filter(agente=request.user)
-    return render(request, 'clientes.html', {'lista': lista_clientes})
+    queryset = request.GET.get("buscar")
+    if queryset:
+        lista_cliente = Cliente.objects.filter((Q(nombre__icontains=queryset) | Q(ap_paterno__icontains=queryset) | Q(ap_materno__icontains=queryset)| Q(num_celular__icontains=queryset) )& Q(agente=request.user))
+
+        return render(request, 'clientes.html', {'lista': lista_cliente})
+    else:
+        lista_clientes = Cliente.objects.filter(agente=request.user)
+        return render(request, 'clientes.html', {'lista': lista_clientes})
+
+    #lista_clientes = Cliente.objects.filter(agente=request.user)
+    #return render(request, 'clientes.html', {'lista': lista_clientes})
 
 def nuevo(request):
     cliente = ClienteForm(request.POST or None)
@@ -45,16 +57,26 @@ def eliminar(request, id_cliente):
         cliente.delete()
         return redirect('Clientes:index')
     return render(request,'eliminar.html', {'cliente':cliente})
+
+        
 #Pólizas 
 
 def polizas(request):
-
-    lista_polizas = Poliza.objects.none()
-    cliente = Cliente.objects.filter(agente = request.user)
-    for usuario in cliente:
-        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
-    lista = list(lista_polizas)
-    return render(request, 'polizas.html', {'poliza': lista})
+    queryset = request.GET.get("buscar")
+    if queryset:
+        lista_polizas = Poliza.objects.none()
+        cliente = Cliente.objects.filter(agente = request.user)
+        for usuario in cliente:
+            lista_polizas  |= Poliza.objects.filter(Q(cliente = usuario) & Q(num_poliza__icontains=queryset))
+        lista = list(lista_polizas)
+        return render(request, 'polizas.html', {'poliza': lista})
+    else:
+        lista_polizas = Poliza.objects.none()
+        cliente = Cliente.objects.filter(agente = request.user)
+        for usuario in cliente:
+            lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+        lista = list(lista_polizas)
+        return render(request, 'polizas.html', {'poliza': lista})
 
 def nueva_poliza(request):
     lista_clientes = Cliente.objects.all()
@@ -146,20 +168,35 @@ def eliminarPrima(request, id_poliza, id_prima):
         prima.delete()
         return redirect('Clientes:detalle_poliza', id_poliza)
     return render(request,'prima_eliminar.html', {'prima':prima})
+
     #Notificaciónes
 
 def notificaciones(request):
-    lista_polizas = Poliza.objects.none()
-    lista_primas = Prima.objects.none()
-    cliente = Cliente.objects.filter(agente = request.user)
-    
-    for usuario in cliente:
-        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
-    lista = list(lista_polizas)
-    for prima in lista:
-        lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
-    lista_primas_agente = list(lista_primas)
-    return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
+    queryset = request.GET.get("buscar")
+    if queryset:
+        lista_polizas = Poliza.objects.none()
+        lista_primas = Prima.objects.none()
+        cliente = Cliente.objects.filter(agente = request.user)
+        
+        for usuario in cliente:
+            lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+        lista = list(lista_polizas)
+        for prima in lista:
+            lista_primas |= Prima.objects.filter(Q(poliza = prima, status = 1) & Q(no_prima__icontains = queryset) )
+        lista_primas_agente = list(lista_primas)
+        return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
+    else:
+        lista_polizas = Poliza.objects.none()
+        lista_primas = Prima.objects.none()
+        cliente = Cliente.objects.filter(agente = request.user)
+        
+        for usuario in cliente:
+            lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+        lista = list(lista_polizas)
+        for prima in lista:
+            lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
+        lista_primas_agente = list(lista_primas)
+        return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
 
 def notificaciones_estado(request, id_prima):
     prima = Prima.objects.get(id=id_prima)
@@ -181,17 +218,17 @@ def notificaciones_estado(request, id_prima):
     return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
     
 def enviar_notificacion(request, id_prima):
-    #Falta checar esto para que se envíe el correo en automático al usuario corresponiente
-    prima = Prima.objects.get(id=id_prima)
-    lista_clientes = Cliente.objects.filter(Q(agente = request.user) & Q())
-    lista_primas = Prima.objects.none()
-    
+    #Encontrar al cliente de la prima
+    prima = Prima.objects.get(id = id_prima)
+    poliza = Poliza.objects.get(id = prima.poliza.id)
+    cliente = Cliente.objects.get(id = poliza.id)
     
     #Enviar email
     asunto = "Recuerde pagar su póliza de seguro número " + str(prima.poliza)
-    mensaje = "Hola. Este correo es para recordarle el pago de la prima número {} de la póliza {}, favor de pagar MXN{} antes del {}. Gracias. ".format(str(prima.no_prima), str(prima.poliza),str(prima.prima_neta),str(prima.fecha_vencimiento))
-    email = EmailMessage(asunto, mensaje, 'archiherr@gmail.com',['archiherr@gmail.com'])
+    mensaje = "Hola {} {}. Este correo es para recordarle el pago de la prima número {} de la póliza {}, favor de pagar MXN{} antes del {}. Gracias. ".format( str(cliente.nombre), str(cliente.ap_paterno),str(prima.no_prima), str(prima.poliza),str(prima.total_pagar),str(prima.fecha_vencimiento))
+    email = EmailMessage(asunto, mensaje, 'archiherr@gmail.com',[cliente.email])
     email.send()
+    messages.success(request,'Email enviado exitosamente')
 
     #Regresar a ventana de notificaciónes
     lista_polizas = Poliza.objects.none()
@@ -204,3 +241,66 @@ def enviar_notificacion(request, id_prima):
         lista_primas |= Prima.objects.filter(poliza = prima, status = 1)
     lista_primas_agente = list(lista_primas)
     return render(request, 'notificaciones.html',{'primas': lista_primas_agente})
+
+def estadisticas(request):
+
+    lista_polizas = Poliza.objects.none()
+    lista_primas = Prima.objects.none()
+    cliente = Cliente.objects.filter(agente = request.user)
+    
+    for usuario in cliente:
+        lista_polizas  |= Poliza.objects.filter(cliente = usuario)
+    lista = list(lista_polizas)
+    for prima in lista:
+        lista_primas |= Prima.objects.filter(poliza = prima, status = 2)
+    lista_primas_agente = list(lista_primas)
+
+    cantidad_mensual = 0.0
+    
+    data = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+    for prima in lista_primas_agente:
+        casilla = asignar_fecha(str(prima.fecha_vencimiento))
+        casilla = int(casilla)
+        print(type(casilla))
+        casilla = casilla-1
+        cantidad_mensual = data[casilla] + (float(prima.total_pagar))*((float(prima.comision_agente)/100))
+        data[casilla] = cantidad_mensual
+        cantidad_mensual = 0.0
+
+    labels = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+    
+    return render(request, 'estadisticas.html', {'labels':labels, 'data':data})
+
+def asignar_fecha(num):
+    num = num[5:7]
+    mes = ""
+    if(num == "01"):
+        mes = "Enero"
+    if(num== ("02")):
+        mes = "Febrero"
+    if(num== ("03")):
+        mes = "Marzo"
+    if(num== ("04")):
+        mes = "Abril"
+    if(num== ("05")):
+        mes = "Mayo"
+    if(num== ("06")):
+        mes = "Junio"
+    if(num== ("07")):
+        mes = "Julio"
+    if(num== ("08")):
+        mes = "Agosto"
+    if(num== ("09")):
+        mes = "Septiembre"
+    if(num== ("10")):
+        mes = "Octubre"
+    if(num== ("11")):
+        mes = "Noviembre"
+    if(num== ("12")):
+        mes = "Diciembre"   
+    if(num.startswith("0")):
+        num = num[1]
+    return num
+    
+    
+    

@@ -4,13 +4,23 @@
 
 {% block content %}
 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 	<section class="container-general services">
 		<div class="titles">
 			<div class="title">
 				<h1>Notificaciones</h1>
 			</div>	
 			<div class="box-search">
-				<input type="text" name="">
+				<form method="GET">
+				<input id="entrada" type="text" name="buscar" placeholder="Prima..">
+				<button type="submit" class="btn btn-success">Buscar</button>
+			</form>
 			</div>	
 		</div>
 		<div class="body-general">

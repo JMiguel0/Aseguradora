@@ -128,9 +128,11 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+#A donde se reedirige el usuario al logearse
 LOGIN_REDIRECT_URL = reverse_lazy('Clientes:index')
+#A donde se reedirige el usuario al cerrar sesión
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
+#Que usuaeio se va a autenticar en lugar del user que viene por defecto
 AUTH_USER_MODEL = 'Agentes.Agente'
 
 #Para enviar correos
